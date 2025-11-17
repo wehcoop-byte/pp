@@ -1,4 +1,4 @@
-import React, { useState, useRef, useCallback, MouseEvent, TouchEvent } from 'react';
+import React, { useState, useRef, useCallback, MouseEvent, TouchEvent, useEffect } from 'react';
 
 interface PortraitDisplayProps {
     originalImage: string;
@@ -17,51 +17,59 @@ const SliderHandle: React.FC = () => (
 
 export const PortraitDisplay: React.FC<PortraitDisplayProps> = ({ originalImage, generatedImage, likenessScore }) => {
     const [sliderPosition, setSliderPosition] = useState(50);
+    const [isDragging, setIsDragging] = useState(false);
     const containerRef = useRef<HTMLDivElement>(null);
-    const isDraggingRef = useRef(false);
 
-    const handleMove = useCallback((clientX: number) => {
-        if (!isDraggingRef.current || !containerRef.current) return;
+    const updateSliderPosition = useCallback((clientX: number) => {
+        if (!containerRef.current) return;
         const rect = containerRef.current.getBoundingClientRect();
         const x = clientX - rect.left;
         const position = Math.max(0, Math.min(100, (x / rect.width) * 100));
         setSliderPosition(position);
     }, []);
 
+    const handleMove = useCallback((clientX: number) => {
+        if (!isDragging) return;
+        updateSliderPosition(clientX);
+    }, [isDragging, updateSliderPosition]);
+
     const handleMouseDown = (e: MouseEvent<HTMLDivElement>) => {
         e.preventDefault();
-        isDraggingRef.current = true;
-        handleMove(e.clientX);
+        setIsDragging(true);
+        updateSliderPosition(e.clientX);
     };
 
     const handleTouchStart = (e: TouchEvent<HTMLDivElement>) => {
-        isDraggingRef.current = true;
-        handleMove(e.touches[0].clientX);
+        setIsDragging(true);
+        updateSliderPosition(e.touches[0].clientX);
     };
 
     const handleEnd = useCallback(() => {
-        isDraggingRef.current = false;
+        setIsDragging(false);
     }, []);
-    
-    // Add listeners to the window to handle dragging outside the component
-    React.useEffect(() => {
+
+    useEffect(() => {
+        if (!isDragging) {
+            return;
+        }
+
         const handleWindowMouseMove = (e: globalThis.MouseEvent) => handleMove(e.clientX);
         const handleWindowTouchMove = (e: globalThis.TouchEvent) => handleMove(e.touches[0].clientX);
 
-        if (isDraggingRef.current) {
-            window.addEventListener('mousemove', handleWindowMouseMove);
-            window.addEventListener('mouseup', handleEnd);
-            window.addEventListener('touchmove', handleWindowTouchMove);
-            window.addEventListener('touchend', handleEnd);
-        }
+        window.addEventListener('mousemove', handleWindowMouseMove);
+        window.addEventListener('mouseup', handleEnd);
+        window.addEventListener('touchmove', handleWindowTouchMove);
+        window.addEventListener('touchend', handleEnd);
+        window.addEventListener('touchcancel', handleEnd);
 
         return () => {
             window.removeEventListener('mousemove', handleWindowMouseMove);
             window.removeEventListener('mouseup', handleEnd);
             window.removeEventListener('touchmove', handleWindowTouchMove);
             window.removeEventListener('touchend', handleEnd);
+            window.removeEventListener('touchcancel', handleEnd);
         };
-    }, [isDraggingRef.current, handleMove, handleEnd]);
+    }, [isDragging, handleMove, handleEnd]);
 
     return (
         <div className="w-full max-w-2xl mx-auto flex flex-col items-center gap-6">
@@ -102,7 +110,7 @@ export const PortraitDisplay: React.FC<PortraitDisplayProps> = ({ originalImage,
                     className="absolute top-0 bottom-0 w-1 bg-white/80 backdrop-blur-sm cursor-e-resize"
                     style={{ left: `${sliderPosition}%`, transform: 'translateX(-50%)' }}
                 >
-                   <SliderHandle/>
+                    <SliderHandle />
                 </div>
             </div>
 
