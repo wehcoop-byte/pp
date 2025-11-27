@@ -1,0 +1,13 @@
+@import "tailwindcss"; /* Tailwind v4 single import */
+
+:root{
+  --brand-dark-purple:#351B41;
+  --brand-accent-orange:#F4953E;
+  --brand-soft-white:#FFFAFF;
+  --brand-muted-lavender:#554860;
+  --brand-pale-rose:#F1E9ED;
+}
+html,body{margin:0;padding:0;background:var(--brand-dark-purple);color:var(--brand-soft-white)}
+.glass-card{background:rgb(255 255 255 / .06);border:1px solid rgb(255 255 255 / .15);border-radius:1rem;backdrop-filter:blur(16px);box-shadow:0 8px 24px rgb(0 0 0 / .4)}
+.interactive-card{transition:transform .25s ease, box-shadow .25s ease}
+.interactive-card:hover{transform:perspective(800px) rotateX(3deg) rotateY(-3deg) scale(1.02)}

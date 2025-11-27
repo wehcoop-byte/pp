@@ -1,0 +1,7 @@
+fastapi
+uvicorn[standard]
+Pillow
+requests
+torch
+numpy
+open-clip-torch

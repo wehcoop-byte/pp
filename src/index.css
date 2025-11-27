@@ -1,0 +1,122 @@
+@import "tailwindcss";
+
+:root {
+  /* --- YOUR BRAND PALETTE --- */
+  --brand-deep-purple: #513369;  /* Main Background (Exact) */
+  --brand-rich-purple: #50336a;  /* Secondary */
+  --brand-muted-purple: #87799e; /* Subtitles */
+  --brand-light-purple: #a796c4; /* Borders/Accents */
+  --brand-soft-white: #fffaff;   /* Main Text */
+  --brand-pale-rose: #f1e9ed;    /* Card Backgrounds/Highlights */
+  --brand-black: #121212;        /* Shadows/Contrast */
+  
+  --brand-accent-orange: #F4953E; /* Buttons */
+
+  /* FONTS */
+  --font-heading: "Nunito", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-body: "Lato", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+
+  /* UI VARS */
+  --radius-card: 24px;
+  --shadow-soft: 0 20px 40px rgba(18, 18, 18, 0.25);
+}
+
+/* GLOBAL BODY */
+body {
+  margin: 0;
+  padding: 0;
+  /* SOLID BACKGROUND - NO GRADIENT */
+  background-color: var(--brand-deep-purple);
+  background-image: none;
+  color: var(--brand-soft-white);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+}
+
+#root {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* TYPOGRAPHY */
+h1, h2, h3, h4, h5, h6, .font-heading {
+  font-family: var(--font-heading);
+  font-weight: 800;
+  color: var(--brand-soft-white);
+  letter-spacing: 0.02em;
+}
+
+/* INTERACTIVE CARDS (3D Hover Effect) */
+.interactive-card {
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  transform-style: preserve-3d;
+  perspective: 1000px;
+  /* Using your pale rose with low opacity for a "glass" feel on the purple bg */
+  background: rgba(241, 233, 237, 0.08); 
+  border: 2px solid rgba(167, 150, 196, 0.2); /* Light Purple Border */
+  backdrop-filter: blur(12px);
+}
+
+.interactive-card:hover {
+  transform: translateY(-6px) scale(1.02);
+  box-shadow: 0 20px 40px -10px rgba(18, 18, 18, 0.4);
+  border-color: var(--brand-accent-orange);
+  z-index: 10;
+}
+
+.interactive-card:active {
+  transform: scale(0.98);
+}
+
+/* GENERIC CONTAINER CARD */
+.app-card {
+  background: rgba(18, 18, 18, 0.2);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(167, 150, 196, 0.15);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-soft);
+  padding: 2.5rem;
+}
+
+/* BUTTONS */
+button {
+  font-family: var(--font-heading);
+  font-weight: 700;
+}
+
+/* INPUTS */
+input, textarea {
+  background: rgba(18, 18, 18, 0.25); 
+  border: 2px solid rgba(167, 150, 196, 0.3); /* Light Purple Border */
+  color: var(--brand-soft-white);
+  border-radius: 16px;
+  transition: all 0.2s ease;
+}
+
+input::placeholder, textarea::placeholder {
+  color: var(--brand-muted-purple);
+}
+
+input:focus, textarea:focus {
+  border-color: var(--brand-accent-orange);
+  background: rgba(18, 18, 18, 0.5);
+  outline: none;
+  box-shadow: 0 0 0 4px rgba(244, 149, 62, 0.2);
+}
+
+/* SCROLLBAR */
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.1);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--brand-muted-purple);
+  border-radius: 5px;
+  border: 2px solid var(--brand-deep-purple);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--brand-light-purple);
+}

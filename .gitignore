@@ -1,0 +1,81 @@
+# ───────────────────────────────
+# Node / Dependencies
+# ───────────────────────────────
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+package-lock.json
+
+# ───────────────────────────────
+# Build output
+# ───────────────────────────────
+dist/
+build/
+.tmp/
+.cache/
+.vite/
+
+# ───────────────────────────────
+# Environment & Secrets
+# ───────────────────────────────
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+.env.*
+!.env.example     # keep a sample env if you want
+
+# ───────────────────────────────
+# Logs / Databases
+# ───────────────────────────────
+logs/
+*.log
+*.sqlite
+*.db
+
+# ───────────────────────────────
+# OS / Editor Junk
+# ───────────────────────────────
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*.tmp
+*.bak
+*.old
+.idea/
+.vscode/
+*.code-workspace
+
+# ───────────────────────────────
+# Testing / Coverage
+# ───────────────────────────────
+coverage/
+.nyc_output/
+
+# ───────────────────────────────
+# Uploads / Generated Files
+# ───────────────────────────────
+uploads/
+output/
+generated/
+screenshots/
+
+# ───────────────────────────────
+# TypeScript / Build Artifacts
+# ───────────────────────────────
+*.tsbuildinfo
+tsconfig.tsbuildinfo
+
+# ───────────────────────────────
+# Misc
+# ───────────────────────────────
+*.pid
+*.seed
+*.orig
+*.rej
+*.swp
+*.lock

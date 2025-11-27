@@ -1,0 +1,11 @@
+node_modules
+npm-debug.log
+dist
+.git
+src
+*.md
+.vscode
+.idea
+.env
+firebase.json
+vite.config.ts
