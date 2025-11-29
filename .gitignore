@@ -27,7 +27,7 @@ build/
 .env.production.local
 .env.*
 !.env.example     # keep a sample env if you want
-
+service_account.json
 # ───────────────────────────────
 # Logs / Databases
 # ───────────────────────────────
