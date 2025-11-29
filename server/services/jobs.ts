@@ -1,6 +1,6 @@
 // server/services/jobs.ts
 import { Firestore } from "@google-cloud/firestore";
-import { Job } from "../types/Job";
+import { Job } from "../types/Job.js";
 
 const firestore = new Firestore({ ignoreUndefinedProperties: true });
 const collection = firestore.collection("jobs");

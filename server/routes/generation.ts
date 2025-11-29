@@ -1,12 +1,12 @@
 // server/routes/generation.ts
 import { Router } from "express";
-import { createJob, getJobById, updateJob } from "../services/jobs";
-import { uploadOriginal, uploadPreview, uploadPrintReady, downloadOriginal } from "../services/storage";
-import { generateImageWithGemini } from "../services/gemini";
-import { scoreLikeness } from "../services/likeness";
-import { upscaleImage } from "../services/upscaler";
-import { checkAndIncrementRateLimit } from "../services/rateLimit";
-import { sendCustomerEmail, sendAdminErrorEmail } from "../services/email";
+import { createJob, getJobById, updateJob } from "../services/jobs.js";
+import { uploadOriginal, uploadPreview, uploadPrintReady, downloadOriginal } from "../services/storage.js";
+import { generateImageWithGemini } from "../services/gemini.js";
+import { scoreLikeness } from "../services/likeness.js";
+import { upscaleImage } from "../services/upscaler.js";
+import { checkAndIncrementRateLimit } from "../services/rateLimit.js";
+import { sendCustomerEmail, sendAdminErrorEmail } from "../services/email.js";
 
 const router = Router();
 const MAX_ATTEMPTS = Number(process.env.MAX_GENERATION_ATTEMPTS || 3);

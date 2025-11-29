@@ -1,6 +1,6 @@
 // server/services/storage_ext.ts
 import { Storage } from "@google-cloud/storage";
-import { env } from "../env";
+import { env } from "../env.js";
 
 const storage = new Storage();
 

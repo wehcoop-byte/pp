@@ -1,5 +1,5 @@
 // server/services/featureFlags.ts
-import { env } from "../env";
+import { env } from "../env.js";
 
 type Flags = {
   testMode: boolean;

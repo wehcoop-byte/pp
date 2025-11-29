@@ -1,7 +1,7 @@
 // server/api.ts
 import express from "express";
 import type { Request, Response } from "express";
-import { sendOrderEmails } from "./email";
+import { sendOrderEmails } from "./email.js";
 
 const router = express.Router();
 

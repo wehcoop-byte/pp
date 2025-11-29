@@ -4,6 +4,7 @@ export type JobStatus =
   | "generating"
   | "generated"
   | "locked"
+  | "upscaled"            // add
   | "awaiting_payment"
   | "paid"
   | "sent_to_printify"
@@ -24,10 +25,13 @@ export interface Job {
   ip?: string;
 
   status: JobStatus;
+
   originalUrl?: string;
   previewUrl?: string;
-  printReadyUrl?: string;
-
+  generatedUrl?: string;          // add
+  printReadyUrl?: string | null;  // allow null
+  prompt?: string;
+   productType?: "digital_only" | "print_bundle";
   likeness?: {
     score: number;
     threshold: number;

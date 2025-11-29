@@ -1,5 +1,6 @@
 // server/services/jobRepo.ts
-import type { Job } from "./gates";
+import type { Job } from "../types/Job.js";
+
 
 // Replace with Firestore persistence
 const mem = new Map<string, Job>();

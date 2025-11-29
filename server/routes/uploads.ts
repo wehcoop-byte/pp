@@ -2,7 +2,7 @@
 import { Router } from "express";
 import type { Request, Response } from "express";
 import { Storage } from "@google-cloud/storage";
-import { env } from "../env";
+import { env } from "../env.js";
 
 const router = Router();
 const storage = new Storage();
@@ -25,10 +25,12 @@ router.post("/", async (req: Request, res: Response) => {
 
     const key = `${jobId}/original.jpg`;
     await bucket.file(key).save(buffer, {
-      resumable: false,
-      metadata: { contentType: contentType || "image/jpeg" },
-      cacheControl: "private, max-age=3600"
-    });
+  resumable: true,
+  metadata: {
+    contentType,
+    cacheControl: "public, max-age=31536000"
+  }
+});
 
     return res.status(201).json({ ok: true, key });
   } catch (err: any) {

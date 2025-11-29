@@ -1,7 +1,7 @@
 // server/routes/admin.ts
 import { Router } from "express";
-import { adminAuth } from "../middleware/adminAuth";
-import { getFlags, setFlags } from "../services/featureFlags";
+import { adminAuth } from "../middleware/adminAuth.js";
+import { getFlags, setFlags } from "../services/featureFlags.js";
 
 export const adminRouter = Router();
 adminRouter.use(adminAuth);

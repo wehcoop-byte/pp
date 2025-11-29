@@ -1,6 +1,6 @@
 // server/services/finalize.ts
-import { storageGetBuffer, putPrintReady } from "./storage_ext";
-import { upscaleImage } from "./upscale";
+import { storageGetBuffer, putPrintReady } from "./storage_ext.js";
+import { upscaleImage } from "./upscale.js";
 
 /**
  * Finalize a job for delivery:

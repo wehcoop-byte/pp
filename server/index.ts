@@ -6,22 +6,22 @@ import helmet from "helmet";
 import cookieParser from "cookie-parser";
 
 // Middleware (request id + access logs)
-import { requestId, logger } from "./middleware/logging";
+import { requestId, logger } from "./middleware/logging.js";
 
 // Your existing helpers
-import { ipLimitGenerateMemory } from "./rate-limit-memory";
-import { addTiledWatermark } from "./watermark";
+import { ipLimitGenerateMemory } from "./rate-limit-memory.js";
+import { addTiledWatermark } from "./watermark.js";
 
 // Real backend routes (yours)
-import checkoutRouter from "./api";                  // /api/checkout
-import generationRouter from "./routes/generation";  // /api/generate, /regenerate, /lock, /upscale, /job/:id, /report-error
+import checkoutRouter from "./api.js";                  // /api/checkout
+import generationRouter from "./routes/generation.js";  // /api/generate, /regenerate, /lock, /upscale, /job/:id, /report-error
 
 // New routes we’re wiring in
-import { uploadsRouter } from "./routes/uploads";    // /api/uploads (resumable + post-policy)
-import { previewRouter } from "./routes/preview";    // /api/preview  (watermark + proxy)
-import { finalRouter } from "./routes/final";        // /api/final    (finalize + stream)
-import { adminRouter } from "./routes/admin";        // /api/admin    (feature flags)
-import { webhooksRouter } from "./routes/webhooks";  // /api/webhooks/shopify (paid)
+import { uploadsRouter } from "./routes/uploads.js";    // /api/uploads (resumable + post-policy)
+import { previewRouter } from "./routes/preview.js";    // /api/preview  (watermark + proxy)
+import { finalRouter } from "./routes/final.js";        // /api/final    (finalize + stream)
+import { adminRouter } from "./routes/admin.js";        // /api/admin    (feature flags)
+import { webhooksRouter } from "./routes/webhooks.js";  // /api/webhooks/shopify (paid)
 
 // ----------------------------------------------------------------------------
 // App bootstrap
@@ -72,7 +72,7 @@ app.use("/api", generationRouter);  // generation + post-purchase upscale
 app.use("/api", checkoutRouter);    // checkout + email
 
 // Webhooks: mount RAW body only for this path so HMAC checks can work
-app.use("/api/webhooks", express.raw({ type: "*/*", limit: "1mb" }));
+app.use("/api/webhooks", express.raw({ type: "*/*", limit: "5mb" }));
 app.use("/api/webhooks", webhooksRouter);
 
 // ----------------------------------------------------------------------------

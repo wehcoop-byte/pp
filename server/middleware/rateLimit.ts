@@ -1,7 +1,7 @@
 // server/middleware/rateLimit.ts
 import type { Request, Response, NextFunction } from "express";
-import { env } from "../env";
-import { getFlags } from "../services/featureFlags";
+import { env } from "../env.js";
+import { getFlags } from "../services/featureFlags.js";
 
 type Key = string;
 const counters = new Map<Key, { count: number; resetAt: number }>();

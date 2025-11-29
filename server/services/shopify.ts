@@ -1,5 +1,5 @@
 // src/services/shopifyService.ts
-import { FulfillmentKind, Product } from "../data/products";
+import { FulfillmentKind, Product } from "../data/products.js";
 
 export async function fetchProducts(): Promise<Product[]> {
   // If you already hit Shopify, keep your logic and map to include `fulfillment`.

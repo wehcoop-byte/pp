@@ -1,52 +1,80 @@
-import React, { Suspense, useRef } from "react";
+import React, { useRef, Suspense } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
-import { Float, Environment, Sphere } from "@react-three/drei";
+import { Float, Environment, Stars, Sphere, MeshDistortMaterial } from "@react-three/drei";
 import * as THREE from "three";
 
-function SwirlBlob({ color = "#F4953E" }) {
+// Small animated orb
+function GlowOrb({ position = [0, 0, 0] as [number, number, number], color = "#F4953E" }) {
   const ref = useRef<THREE.Mesh>(null);
-  useFrame((s) => {
+  useFrame(({ clock }) => {
     if (!ref.current) return;
-    ref.current.rotation.y += 0.003;
-    ref.current.rotation.x = Math.sin(s.clock.elapsedTime * 0.4) * 0.2;
+    const t = clock.getElapsedTime();
+    ref.current.rotation.y = t * 0.3;
   });
   return (
-    <Float floatIntensity={1.2} speed={1.2} rotationIntensity={0.5}>
-      <Sphere ref={ref} args={[1.2, 64, 64]}>
-        <meshStandardMaterial roughness={0.25} metalness={0.4} color={color} />
-      </Sphere>
+    <Float speed={1.5} rotationIntensity={0.6} floatIntensity={0.8}>
+      <mesh ref={ref} position={position}>
+        <Sphere args={[1.2, 64, 64]} />
+        <MeshDistortMaterial
+          color={color}
+          emissive={color}
+          emissiveIntensity={0.6}
+          roughness={0.2}
+          metalness={0.1}
+          distort={0.25}
+          speed={2}
+        />
+      </mesh>
     </Float>
   );
 }
 
-function Dust() {
-  const count = 120;
-  const positions = new Float32Array(count * 3);
-  for (let i = 0; i < count; i++) {
-    positions[i*3+0] = (Math.random()-0.5)*14;
-    positions[i*3+1] = (Math.random()-0.5)*8;
-    positions[i*3+2] = (Math.random()-0.5)*12;
-  }
+// Soft background sphere
+function Backdrop() {
   return (
-    <points>
-      <bufferGeometry>
-        <bufferAttribute attach="attributes-position" args={[positions, 3]} />
-      </bufferGeometry>
-      <pointsMaterial size={0.03} color="#FFFAFF" transparent opacity={0.15} />
-    </points>
+    <mesh position={[0, 0, -6]}>
+      <Sphere args={[8, 64, 64]} />
+      <meshStandardMaterial color={"#50336a"} />
+    </mesh>
   );
 }
 
 export default function HeroScene() {
+  // Respect people who hate animations
+  const reduced = typeof window !== "undefined" &&
+    window.matchMedia &&
+    window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
   return (
-    <div className="absolute inset-0 -z-10">
-      <Canvas camera={{ position: [0, 0, 4], fov: 55 }}>
-        <ambientLight intensity={0.6} />
-        <directionalLight position={[4, 6, 5]} intensity={0.9} color="#F4953E" />
+    <div
+      className="interactive-card"
+      style={{
+        width: "100%",
+        height: 420,
+        borderRadius: 24,
+        overflow: "hidden",
+      }}
+    >
+      <Canvas
+        dpr={[1, 1.5]}
+        gl={{ antialias: true, alpha: true }}
+        camera={{ position: [0, 0, 6], fov: 45 }}
+        // keeps GPU cost sane on mobile
+        performance={{ min: 0.5 }}
+      >
         <Suspense fallback={null}>
-          <SwirlBlob color="#F4953E" />
-          <Dust />
-          <Environment preset="city" />
+          <color attach="background" args={["transparent"]} />
+          <ambientLight intensity={0.6} />
+          <directionalLight position={[5, 5, 5]} intensity={1.2} />
+          <Backdrop />
+          {!reduced && (
+            <>
+              <GlowOrb position={[-1.8, 0.4, 0]} color="#F4953E" />
+              <GlowOrb position={[1.6, -0.2, 0]} color="#a796c4" />
+              <Stars radius={30} depth={40} count={1200} factor={3} fade />
+            </>
+          )}
+          <Environment preset="studio" />
         </Suspense>
       </Canvas>
     </div>
